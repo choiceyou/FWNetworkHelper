@@ -1,0 +1,12 @@
+# Uncomment the next line to define a global platform for your project
+platform :ios, '8.0'
+
+target 'FWNetworkHelper' do
+    
+    # 网络请求：https://github.com/AFNetworking/AFNetworking
+    pod 'AFNetworking'
+    
+    # YY系列：https://github.com/ibireme/YYKit
+    pod 'YYKit'
+    
+end
