@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
   #
 
   s.name         = "FWNetworkHelper"
-  s.version      = "2.1.1"
+  s.version      = "2.1.2"
   s.summary      = "对AFNetworking 3.x 与YYCache的二次封装"
 
   # This description is used to generate tags and improve search results.
@@ -133,7 +133,8 @@ Pod::Spec.new do |s|
   # s.xcconfig = { "HEADER_SEARCH_PATHS" => "$(SDKROOT)/usr/include/libxml2" }
 
   s.requires_arc = true
-  s.dependency 'AFNetworking', '~> 3.2.0'
-  s.dependency 'YYKit', '~> 1.0.4'
+  s.dependency 'AFNetworking', '~> 4.0.0'
+  s.dependency 'YYKit', '~> 1.0.9'
 
 end
+

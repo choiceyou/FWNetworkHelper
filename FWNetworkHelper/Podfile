@@ -1,12 +1,14 @@
 # Uncomment the next line to define a global platform for your project
-platform :ios, '8.0'
+platform :ios, '9.0'
+source 'https://mirrors.tuna.tsinghua.edu.cn/git/CocoaPods/Specs.git'
 
 target 'FWNetworkHelper' do
-    
-    # 网络请求：https://github.com/AFNetworking/AFNetworking
-    pod 'AFNetworking'
-    
-    # YY系列：https://github.com/ibireme/YYKit
-    pod 'YYKit'
-    
+  #  use_frameworks!
+  
+  # 网络请求：https://github.com/AFNetworking/AFNetworking
+  pod 'AFNetworking'
+  
+  # YY系列：https://github.com/ibireme/YYKit
+  pod 'YYKit'
+  
 end

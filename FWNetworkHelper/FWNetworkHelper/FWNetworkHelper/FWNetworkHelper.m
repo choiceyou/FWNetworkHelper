@@ -45,40 +45,37 @@ static AFHTTPSessionManager *_sessionManager;
 #pragma mark - GET请求
 + (NSURLSessionTask *)GET:(NSString *)URL
                parameters:(id)parameters
+                  headers:(NSDictionary *)headers
                   success:(FWHttpRequestSuccess)success
                   failure:(FWHttpRequestFailed)failure
 {
-    return [self GET:URL parameters:parameters isShouldCache:NO responseCache:nil success:success failure:failure];
+    return [self GET:URL parameters:parameters headers:headers isShouldCache:NO responseCache:nil success:success failure:failure];
 }
 
 + (__kindof NSURLSessionTask *)GET:(NSString *)URL
                         parameters:(id)parameters
+                           headers:(NSDictionary *)headers
                      isShouldCache:(BOOL)isShouldCache
                      responseCache:(FWHttpRequestCache)responseCache
                            success:(FWHttpRequestSuccess)success
                            failure:(FWHttpRequestFailed)failure
 {
-    //读取缓存
+    // 读取缓存
     (isShouldCache && responseCache!=nil) ? responseCache([FWNetworkCache httpCacheForURL:URL parameters:parameters]) : nil;
     
-    NSURLSessionTask *sessionTask = [_sessionManager GET:URL parameters:parameters progress:^(NSProgress * _Nonnull uploadProgress) {
+    NSURLSessionTask *sessionTask = [_sessionManager GET:URL parameters:parameters headers:headers progress:^(NSProgress * _Nonnull downloadProgress) {
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        
         [[self allSessionTask] removeObject:task];
         success ? success(responseObject) : nil;
         //对数据进行异步缓存
         (isShouldCache && responseCache!=nil) ? [FWNetworkCache setHttpCache:responseObject URL:URL parameters:parameters] : nil;
-        
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        
         [[self allSessionTask] removeObject:task];
         failure ? failure(error) : nil;
-        
     }];
     // 添加sessionTask到数组
-    sessionTask ? [[self allSessionTask] addObject:sessionTask] : nil ;
-    
+    sessionTask ? [[self allSessionTask] addObject:sessionTask] : nil;
     return sessionTask;
 }
 
@@ -86,14 +83,16 @@ static AFHTTPSessionManager *_sessionManager;
 #pragma mark - POST请求
 + (NSURLSessionTask *)POST:(NSString *)URL
                 parameters:(id)parameters
+                   headers:(NSDictionary *)headers
                    success:(FWHttpRequestSuccess)success
                    failure:(FWHttpRequestFailed)failure
 {
-    return [self POST:URL parameters:parameters isShouldCache:NO responseCache:nil success:success failure:failure];
+    return [self POST:URL parameters:parameters headers:headers isShouldCache:NO responseCache:nil success:success failure:failure];
 }
 
 + (__kindof NSURLSessionTask *)POST:(NSString *)URL
                          parameters:(id)parameters
+                            headers:(NSDictionary *)headers
                       isShouldCache:(BOOL)isShouldCache
                       responseCache:(FWHttpRequestCache)responseCache
                             success:(FWHttpRequestSuccess)success
@@ -102,7 +101,7 @@ static AFHTTPSessionManager *_sessionManager;
     //读取缓存
     (isShouldCache && responseCache!=nil) ? responseCache([FWNetworkCache httpCacheForURL:URL parameters:parameters]) : nil;
     
-    NSURLSessionTask *sessionTask = [_sessionManager POST:URL parameters:parameters progress:^(NSProgress * _Nonnull uploadProgress) {
+    NSURLSessionTask *sessionTask = [_sessionManager POST:URL parameters:parameters headers:headers progress:^(NSProgress * _Nonnull uploadProgress) {
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         
@@ -126,13 +125,14 @@ static AFHTTPSessionManager *_sessionManager;
 #pragma mark - 上传文件
 + (NSURLSessionTask *)uploadFileWithURL:(NSString *)URL
                              parameters:(id)parameters
+                                headers:(NSDictionary *)headers
                                    name:(NSString *)name
                                filePath:(NSString *)filePath
                                progress:(FWHttpProgress)progress
                                 success:(FWHttpRequestSuccess)success
                                 failure:(FWHttpRequestFailed)failure
 {
-    NSURLSessionTask *sessionTask = [_sessionManager POST:URL parameters:parameters constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
+    NSURLSessionTask *sessionTask = [_sessionManager POST:URL parameters:parameters headers:headers constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
         NSError *error = nil;
         [formData appendPartWithFileURL:[NSURL URLWithString:filePath] name:name error:&error];
         (failure && error) ? failure(error) : nil;
@@ -161,6 +161,7 @@ static AFHTTPSessionManager *_sessionManager;
 #pragma mark - 上传多张图片
 + (NSURLSessionTask *)uploadImagesWithURL:(NSString *)URL
                                parameters:(id)parameters
+                                  headers:(NSDictionary *)headers
                                      name:(NSString *)name
                                    images:(NSArray<UIImage *> *)images
                                 fileNames:(NSArray<NSString *> *)fileNames
@@ -170,7 +171,7 @@ static AFHTTPSessionManager *_sessionManager;
                                   success:(FWHttpRequestSuccess)success
                                   failure:(FWHttpRequestFailed)failure
 {
-    NSURLSessionTask *sessionTask = [_sessionManager POST:URL parameters:parameters constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
+    NSURLSessionTask *sessionTask = [_sessionManager POST:URL parameters:parameters headers:headers constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
         
         for (NSUInteger i = 0; i < images.count; i++) {
             // 图片经过等比压缩后得到的二进制文件

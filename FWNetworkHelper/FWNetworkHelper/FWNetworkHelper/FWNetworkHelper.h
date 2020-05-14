@@ -82,6 +82,7 @@ typedef void (^FWHttpProgress)(NSProgress *progress);
  */
 + (__kindof NSURLSessionTask *)GET:(NSString *)URL
                         parameters:(id)parameters
+                           headers:(NSDictionary *)headers
                            success:(FWHttpRequestSuccess)success
                            failure:(FWHttpRequestFailed)failure;
 
@@ -98,6 +99,7 @@ typedef void (^FWHttpProgress)(NSProgress *progress);
  */
 + (__kindof NSURLSessionTask *)GET:(NSString *)URL
                         parameters:(id)parameters
+                           headers:(NSDictionary *)headers
                      isShouldCache:(BOOL)isShouldCache
                      responseCache:(FWHttpRequestCache)responseCache
                            success:(FWHttpRequestSuccess)success
@@ -114,6 +116,7 @@ typedef void (^FWHttpProgress)(NSProgress *progress);
  */
 + (__kindof NSURLSessionTask *)POST:(NSString *)URL
                          parameters:(id)parameters
+                            headers:(NSDictionary *)headers
                             success:(FWHttpRequestSuccess)success
                             failure:(FWHttpRequestFailed)failure;
 
@@ -130,6 +133,7 @@ typedef void (^FWHttpProgress)(NSProgress *progress);
  */
 + (__kindof NSURLSessionTask *)POST:(NSString *)URL
                          parameters:(id)parameters
+                            headers:(NSDictionary *)headers
                       isShouldCache:(BOOL)isShouldCache
                       responseCache:(FWHttpRequestCache)responseCache
                             success:(FWHttpRequestSuccess)success
@@ -149,6 +153,7 @@ typedef void (^FWHttpProgress)(NSProgress *progress);
  */
 + (__kindof NSURLSessionTask *)uploadFileWithURL:(NSString *)URL
                                       parameters:(id)parameters
+                                         headers:(NSDictionary *)headers
                                             name:(NSString *)name
                                         filePath:(NSString *)filePath
                                         progress:(FWHttpProgress)progress
@@ -172,6 +177,7 @@ typedef void (^FWHttpProgress)(NSProgress *progress);
  */
 + (__kindof NSURLSessionTask *)uploadImagesWithURL:(NSString *)URL
                                         parameters:(id)parameters
+                                           headers:(NSDictionary *)headers
                                               name:(NSString *)name
                                             images:(NSArray<UIImage *> *)images
                                          fileNames:(NSArray<NSString *> *)fileNames
