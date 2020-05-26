@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		49783071247CFB4E0067F54C /* FWNetworkCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 4978306E247CFB4E0067F54C /* FWNetworkCache.m */; };
+		49783072247CFB4E0067F54C /* FWNetworkHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 4978306F247CFB4E0067F54C /* FWNetworkHelper.m */; };
 		49C5E59A21460E3900685EC2 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 49C5E59921460E3900685EC2 /* AppDelegate.m */; };
 		49C5E59D21460E3900685EC2 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 49C5E59C21460E3900685EC2 /* ViewController.m */; };
 		49C5E5A021460E3900685EC2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 49C5E59E21460E3900685EC2 /* Main.storyboard */; };
@@ -15,8 +17,6 @@
 		49C5E5A821460E3B00685EC2 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 49C5E5A721460E3B00685EC2 /* main.m */; };
 		49C5E5B221460E3B00685EC2 /* FWNetworkHelperTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 49C5E5B121460E3B00685EC2 /* FWNetworkHelperTests.m */; };
 		49C5E5BD21460E3B00685EC2 /* FWNetworkHelperUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 49C5E5BC21460E3B00685EC2 /* FWNetworkHelperUITests.m */; };
-		49C5E5CD21460F4E00685EC2 /* FWNetworkHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 49C5E5CC21460F4E00685EC2 /* FWNetworkHelper.m */; };
-		49C5E5DC2146166900685EC2 /* FWNetworkCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 49C5E5DB2146166900685EC2 /* FWNetworkCache.m */; };
 		F5606CCF97465DBE9D07D9C9 /* libPods-FWNetworkHelper.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B96A8550D2381235E1CE6B1 /* libPods-FWNetworkHelper.a */; };
 /* End PBXBuildFile section */
 
@@ -40,6 +40,10 @@
 /* Begin PBXFileReference section */
 		02EA5A1397D6251A21E7F94F /* Pods-FWNetworkHelper.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FWNetworkHelper.debug.xcconfig"; path = "Pods/Target Support Files/Pods-FWNetworkHelper/Pods-FWNetworkHelper.debug.xcconfig"; sourceTree = "<group>"; };
 		1B96A8550D2381235E1CE6B1 /* libPods-FWNetworkHelper.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-FWNetworkHelper.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		4978306D247CFB4E0067F54C /* FWNetworkHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FWNetworkHelper.h; sourceTree = "<group>"; };
+		4978306E247CFB4E0067F54C /* FWNetworkCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FWNetworkCache.m; sourceTree = "<group>"; };
+		4978306F247CFB4E0067F54C /* FWNetworkHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FWNetworkHelper.m; sourceTree = "<group>"; };
+		49783070247CFB4E0067F54C /* FWNetworkCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FWNetworkCache.h; sourceTree = "<group>"; };
 		49C5E59521460E3900685EC2 /* FWNetworkHelper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FWNetworkHelper.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		49C5E59821460E3900685EC2 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		49C5E59921460E3900685EC2 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -56,10 +60,6 @@
 		49C5E5B821460E3B00685EC2 /* FWNetworkHelperUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FWNetworkHelperUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		49C5E5BC21460E3B00685EC2 /* FWNetworkHelperUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FWNetworkHelperUITests.m; sourceTree = "<group>"; };
 		49C5E5BE21460E3B00685EC2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		49C5E5CB21460F4E00685EC2 /* FWNetworkHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FWNetworkHelper.h; sourceTree = "<group>"; };
-		49C5E5CC21460F4E00685EC2 /* FWNetworkHelper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FWNetworkHelper.m; sourceTree = "<group>"; };
-		49C5E5DA2146166900685EC2 /* FWNetworkCache.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FWNetworkCache.h; sourceTree = "<group>"; };
-		49C5E5DB2146166900685EC2 /* FWNetworkCache.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FWNetworkCache.m; sourceTree = "<group>"; };
 		A5DBEA3A68B8FF345B84FAC9 /* libPods-FWNetworkHelperUITests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-FWNetworkHelperUITests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA3C83D011E933E812490E11 /* libPods-FWNetworkHelperTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-FWNetworkHelperTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CF0C01589CB2F08BD4F2137D /* Pods-FWNetworkHelper.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FWNetworkHelper.release.xcconfig"; path = "Pods/Target Support Files/Pods-FWNetworkHelper/Pods-FWNetworkHelper.release.xcconfig"; sourceTree = "<group>"; };
@@ -91,6 +91,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4978306C247CFB4E0067F54C /* FWNetworkHelper */ = {
+			isa = PBXGroup;
+			children = (
+				49783070247CFB4E0067F54C /* FWNetworkCache.h */,
+				4978306E247CFB4E0067F54C /* FWNetworkCache.m */,
+				4978306D247CFB4E0067F54C /* FWNetworkHelper.h */,
+				4978306F247CFB4E0067F54C /* FWNetworkHelper.m */,
+			);
+			name = FWNetworkHelper;
+			path = ../../FWNetworkHelper;
+			sourceTree = "<group>";
+		};
 		49C5E58C21460E3900685EC2 = {
 			isa = PBXGroup;
 			children = (
@@ -116,7 +128,7 @@
 		49C5E59721460E3900685EC2 /* FWNetworkHelper */ = {
 			isa = PBXGroup;
 			children = (
-				49C5E5CA21460F3D00685EC2 /* FWNetworkHelper */,
+				4978306C247CFB4E0067F54C /* FWNetworkHelper */,
 				49C5E59821460E3900685EC2 /* AppDelegate.h */,
 				49C5E59921460E3900685EC2 /* AppDelegate.m */,
 				49C5E59B21460E3900685EC2 /* ViewController.h */,
@@ -146,17 +158,6 @@
 				49C5E5BE21460E3B00685EC2 /* Info.plist */,
 			);
 			path = FWNetworkHelperUITests;
-			sourceTree = "<group>";
-		};
-		49C5E5CA21460F3D00685EC2 /* FWNetworkHelper */ = {
-			isa = PBXGroup;
-			children = (
-				49C5E5CB21460F4E00685EC2 /* FWNetworkHelper.h */,
-				49C5E5CC21460F4E00685EC2 /* FWNetworkHelper.m */,
-				49C5E5DA2146166900685EC2 /* FWNetworkCache.h */,
-				49C5E5DB2146166900685EC2 /* FWNetworkCache.m */,
-			);
-			path = FWNetworkHelper;
 			sourceTree = "<group>";
 		};
 		9C1FB33D3BAA9808C6F4B677 /* Frameworks */ = {
@@ -330,11 +331,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				49783072247CFB4E0067F54C /* FWNetworkHelper.m in Sources */,
 				49C5E59D21460E3900685EC2 /* ViewController.m in Sources */,
-				49C5E5DC2146166900685EC2 /* FWNetworkCache.m in Sources */,
 				49C5E5A821460E3B00685EC2 /* main.m in Sources */,
+				49783071247CFB4E0067F54C /* FWNetworkCache.m in Sources */,
 				49C5E59A21460E3900685EC2 /* AppDelegate.m in Sources */,
-				49C5E5CD21460F4E00685EC2 /* FWNetworkHelper.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

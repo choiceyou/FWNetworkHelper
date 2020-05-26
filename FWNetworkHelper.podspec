@@ -17,7 +17,7 @@ Pod::Spec.new do |spec|
 
   spec.name         = "FWNetworkHelper"
   spec.version      = "2.1.4"
-  spec.summary      = "对AFNetworking 4.x 与YYCache的二次封装"
+  spec.summary      = "对AFNetworking与YYCache的二次封装"
 
   # This description is used to generate tags and improve search results.
   #   * Think: What does it do? Why did you write it? What is the focus?
@@ -64,8 +64,7 @@ Pod::Spec.new do |spec|
   #  the deployment target. You can optionally include the target after the platform.
   #
 
-  # spec.platform     = :ios
-  # spec.platform     = :ios, "8.0"
+  spec.platform     = :ios, "8.0"
 
   #  When using multiple platforms
   # spec.ios.deployment_target = "5.0"
@@ -91,7 +90,7 @@ Pod::Spec.new do |spec|
   #  Not including the public_header_files will make all headers public.
   #
 
-  spec.source_files  = "FWNetworkHelper/FWNetworkHelper/FWNetworkHelper/*.{h,m}"
+  spec.source_files  = "FWNetworkHelper", "FWNetworkHelper/**/*.{h,m}"
 
   # spec.exclude_files = "Classes/Exclude"
   # spec.public_header_files = "Classes/**/*.h"
@@ -117,7 +116,7 @@ Pod::Spec.new do |spec|
   #  the lib prefix of their name.
   #
 
-  # spec.framework  = "SomeFramework"
+  spec.framework  = "Foundation"
   # spec.frameworks = "SomeFramework", "AnotherFramework"
 
   # spec.library   = "iconv"
@@ -134,8 +133,8 @@ Pod::Spec.new do |spec|
 
   # spec.xcconfig = { "HEADER_SEARCH_PATHS" => "$(SDKROOT)/usr/include/libxml2" }
   
-  spec.dependency 'AFNetworking', '~> 4.0.0'  
-  spec.dependency 'YYKit', '~> 1.0.9'
+  spec.dependency 'AFNetworking', '~> 4.0.0'
+  spec.dependency 'YYKit'
 
 
 end
