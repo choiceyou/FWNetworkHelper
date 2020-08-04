@@ -15,34 +15,9 @@
 static NSMutableArray *_allSessionTask;
 static AFHTTPSessionManager *_sessionManager;
 
-+ (void)cancelAllRequest
-{
-    // 锁操作
-    @synchronized(self)
-    {
-        [[self allSessionTask] enumerateObjectsUsingBlock:^(NSURLSessionTask  *_Nonnull task, NSUInteger idx, BOOL * _Nonnull stop) {
-            [task cancel];
-        }];
-        [[self allSessionTask] removeAllObjects];
-    }
-}
-
-+ (void)cancelRequestWithURL:(NSString *)URL
-{
-    if (!URL) { return; }
-    @synchronized (self)
-    {
-        [[self allSessionTask] enumerateObjectsUsingBlock:^(NSURLSessionTask  *_Nonnull task, NSUInteger idx, BOOL * _Nonnull stop) {
-            if ([task.currentRequest.URL.absoluteString hasPrefix:URL]) {
-                [task cancel];
-                [[self allSessionTask] removeObject:task];
-                *stop = YES;
-            }
-        }];
-    }
-}
-
+#pragma mark -
 #pragma mark - GET请求
+
 + (NSURLSessionTask *)GET:(NSString *)URL
                parameters:(id)parameters
                   headers:(NSDictionary *)headers
@@ -80,7 +55,9 @@ static AFHTTPSessionManager *_sessionManager;
 }
 
 
+#pragma mark -
 #pragma mark - POST请求
+
 + (NSURLSessionTask *)POST:(NSString *)URL
                 parameters:(id)parameters
                    headers:(NSDictionary *)headers
@@ -104,25 +81,23 @@ static AFHTTPSessionManager *_sessionManager;
     NSURLSessionTask *sessionTask = [_sessionManager POST:URL parameters:parameters headers:headers progress:^(NSProgress * _Nonnull uploadProgress) {
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        
         [[self allSessionTask] removeObject:task];
         success ? success(responseObject) : nil;
         //对数据进行异步缓存
         (isShouldCache && responseCache!=nil) ? [FWNetworkCache setHttpCache:responseObject URL:URL parameters:parameters] : nil;
-        
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        
         [[self allSessionTask] removeObject:task];
         failure ? failure(error) : nil;
-        
     }];
-    
     // 添加最新的sessionTask到数组
     sessionTask ? [[self allSessionTask] addObject:sessionTask] : nil ;
     return sessionTask;
 }
 
+
+#pragma mark -
 #pragma mark - 上传文件
+
 + (NSURLSessionTask *)uploadFileWithURL:(NSString *)URL
                              parameters:(id)parameters
                                 headers:(NSDictionary *)headers
@@ -142,23 +117,21 @@ static AFHTTPSessionManager *_sessionManager;
             progress ? progress(uploadProgress) : nil;
         });
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        
         [[self allSessionTask] removeObject:task];
         success ? success(responseObject) : nil;
-        
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        
         [[self allSessionTask] removeObject:task];
         failure ? failure(error) : nil;
     }];
-    
     // 添加sessionTask到数组
     sessionTask ? [[self allSessionTask] addObject:sessionTask] : nil ;
-    
     return sessionTask;
 }
 
+
+#pragma mark -
 #pragma mark - 上传多张图片
+
 + (NSURLSessionTask *)uploadImagesWithURL:(NSString *)URL
                                parameters:(id)parameters
                                   headers:(NSDictionary *)headers
@@ -172,46 +145,45 @@ static AFHTTPSessionManager *_sessionManager;
                                   failure:(FWHttpRequestFailed)failure
 {
     NSURLSessionTask *sessionTask = [_sessionManager POST:URL parameters:parameters headers:headers constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
-        
         for (NSUInteger i = 0; i < images.count; i++) {
             // 图片经过等比压缩后得到的二进制文件
-            NSData *imageData = UIImageJPEGRepresentation(images[i], imageScale ?: 1.f);
+            CGFloat tmpMax = 1.f;
+            CGFloat tmpMin = 0.f;
+            CGFloat tmpImageScale = imageScale;
+            tmpImageScale = MIN(tmpImageScale, tmpMax);
+            tmpImageScale = MAX(tmpImageScale, tmpMin);
+            NSData *imageData = UIImageJPEGRepresentation(images[i], tmpImageScale);
             // 默认图片的文件名, 若fileNames为nil就使用
-            
             NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
             formatter.dateFormat = @"yyyyMMddHHmmss";
             NSString *str = [formatter stringFromDate:[NSDate date]];
-            NSString *imageFileName = FNSStringFormat(@"%@%ld.%@",str,i,imageType?:@"jpg");
-            
+            NSString *imageFileName = FNSStringFormat(@"%@%lu.%@", str, (unsigned long)i, imageType?:@"jpg");
             [formData appendPartWithFileData:imageData
                                         name:name
-                                    fileName:fileNames ? FNSStringFormat(@"%@.%@",fileNames[i],imageType?:@"jpg") : imageFileName
-                                    mimeType:FNSStringFormat(@"image/%@",imageType ?: @"jpg")];
+                                    fileName:fileNames ? FNSStringFormat(@"%@.%@", fileNames[i], imageType?:@"jpg") : imageFileName
+                                    mimeType:FNSStringFormat(@"image/%@", imageType ?: @"jpg")];
         }
-        
     } progress:^(NSProgress * _Nonnull uploadProgress) {
         //上传进度
         dispatch_sync(dispatch_get_main_queue(), ^{
             progress ? progress(uploadProgress) : nil;
         });
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        
         [[self allSessionTask] removeObject:task];
         success ? success(responseObject) : nil;
-        
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        
         [[self allSessionTask] removeObject:task];
         failure ? failure(error) : nil;
     }];
-    
     // 添加sessionTask到数组
     sessionTask ? [[self allSessionTask] addObject:sessionTask] : nil ;
-    
     return sessionTask;
 }
 
+
+#pragma mark -
 #pragma mark - 下载文件
+
 + (NSURLSessionTask *)downloadWithURL:(NSString *)URL
                               fileDir:(NSString *)fileDir
                              progress:(FWHttpProgress)progress
@@ -235,25 +207,66 @@ static AFHTTPSessionManager *_sessionManager;
         NSString *filePath = [downloadDir stringByAppendingPathComponent:response.suggestedFilename];
         //返回文件位置的URL路径
         return [NSURL fileURLWithPath:filePath];
-        
     } completionHandler:^(NSURLResponse * _Nonnull response, NSURL * _Nullable filePath, NSError * _Nullable error) {
-        
         [[self allSessionTask] removeObject:downloadTask];
         if(failure && error) {failure(error) ; return ;};
         success ? success(filePath.absoluteString /** NSURL->NSString*/) : nil;
-        
     }];
     //开始下载
     [downloadTask resume];
     // 添加sessionTask到数组
     downloadTask ? [[self allSessionTask] addObject:downloadTask] : nil ;
-    
     return downloadTask;
 }
 
-/**
- 存储着所有的请求task数组
- */
+
+#pragma mark -
+#pragma mark - 取消请求
+
+#pragma mark 取消所有请求
++ (void)cancelAllRequest
+{
+    // 锁操作
+    @synchronized(self) {
+        [[self allSessionTask] enumerateObjectsUsingBlock:^(NSURLSessionTask  *_Nonnull task, NSUInteger idx, BOOL * _Nonnull stop) {
+            [task cancel];
+        }];
+        [[self allSessionTask] removeAllObjects];
+    }
+}
+
+#pragma mark 取消请求
++ (void)cancelRequestWithURL:(NSString *)URL
+{
+    if (!URL) { return; }
+    @synchronized (self) {
+        [[self allSessionTask] enumerateObjectsUsingBlock:^(NSURLSessionTask  *_Nonnull task, NSUInteger idx, BOOL * _Nonnull stop) {
+            if ([task.currentRequest.URL.absoluteString hasPrefix:URL]) {
+                [task cancel];
+                [[self allSessionTask] removeObject:task];
+                *stop = YES;
+            }
+        }];
+    }
+}
+
+#pragma mark 取消请求
++ (void)cancelRequestWithTask:(NSURLSessionTask *)task
+{
+    if (!task) { return; }
+    @synchronized (self) {
+        [task cancel];
+        if ([[self allSessionTask] containsObject:task]) {
+            [[self allSessionTask] removeObject:task];
+        }
+    }
+}
+
+
+#pragma mark -
+#pragma mark - Other
+
+#pragma mark 存储着所有的请求task数组
 + (NSMutableArray *)allSessionTask
 {
     if (!_allSessionTask) {
@@ -263,18 +276,16 @@ static AFHTTPSessionManager *_sessionManager;
 }
 
 
+#pragma mark -
 #pragma mark - 初始化AFHTTPSessionManager相关属性
-/**
- 开始监测网络状态
- */
+
+#pragma mark 开始监测网络状态
 + (void)load
 {
     [[AFNetworkReachabilityManager sharedManager] startMonitoring];
 }
 
-/**
- *  所有的HTTP请求共享一个AFHTTPSessionManager
- */
+#pragma mark 所有的HTTP请求共享一个AFHTTPSessionManager
 + (void)initialize
 {
     _sessionManager = [AFHTTPSessionManager manager];
@@ -285,7 +296,9 @@ static AFHTTPSessionManager *_sessionManager;
 }
 
 
+#pragma mark -
 #pragma mark - 重置AFHTTPSessionManager相关属性
+
 + (void)setAFHTTPSessionManagerProperty:(void (^)(AFHTTPSessionManager *))sessionManager
 {
     sessionManager ? sessionManager(_sessionManager) : nil;
@@ -326,7 +339,6 @@ static AFHTTPSessionManager *_sessionManager;
     // 是否需要验证域名，默认为YES;
     securityPolicy.validatesDomainName = validatesDomainName;
     securityPolicy.pinnedCertificates = [[NSSet alloc] initWithObjects:cerData, nil];
-    
     [_sessionManager setSecurityPolicy:securityPolicy];
 }
 
